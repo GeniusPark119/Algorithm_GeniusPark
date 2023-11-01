@@ -1,2 +1,2 @@
-# BaeHub
-This is a auto push repository for Baekjoon Online Judge created with [BaekjoonHub](https://github.com/BaekjoonHub/BaekjoonHub).
+# Algorithm_GeniusPark
+This is a auto push repository for Baekjoon and Programmers
