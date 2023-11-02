@@ -34,23 +34,31 @@
 //     }
 // }
 
-import java.util.*;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.HashMap;
+import java.util.Set;
 class Solution {
+    public Map<Integer,Integer> map = new HashMap<>();
     public int solution(int[] array) {
-        int maxCount = 0;
         int answer = 0;
-        Map<Integer, Integer> map = new HashMap<>();
-        for(int number : array){
-            int count = map.getOrDefault(number, 0) + 1;
-            if(count > maxCount){
-                maxCount = count;
-                answer = number;
-            }
-            else  if(count == maxCount){
-                answer = -1;
-            }
-            map.put(number, count);
+        for(int num : array){
+            if(map.containsKey(num))
+                map.put(num,map.get(num)+1);
+            else
+                map.put(num,1);
         }
+        int maxV = 0;
+        int maxK = 0;
+        for(Entry<Integer,Integer> entry : map.entrySet()){
+            if(maxV<entry.getValue()){
+                maxV = entry.getValue();
+                maxK = entry.getKey();
+            }else if(maxV==entry.getValue()){
+                maxK = -1;
+            }
+        }
+        answer = maxK;
         return answer;
     }
 }
