@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
 
-class Solution{//10:30 (231208)
+class Solution{//10:30  ~ 13:00 (231208)
     public Map<String,HashSet<String>> report_map = new HashMap<>(); // ID 별로 신고한 ID들 저장
     public Map<String,Integer> cnt_map = new HashMap<>();
     public List<String> list = new ArrayList<>();
@@ -19,7 +19,6 @@ class Solution{//10:30 (231208)
                 report_map.put(id,new HashSet<String>());
             report_map.get(id).add(reported);
         }
-        // System.out.println(report_map);
         for(int i=0;i<id_list.length;i++){
             if(report_map.containsKey(id_list[i])){
                 for(String str : report_map.get(id_list[i])){
@@ -29,15 +28,12 @@ class Solution{//10:30 (231208)
         }//cnt_map에 아이디별 신고당한 횟수를 저장한다.
         
         
-        // System.out.println(cnt_map);
-        
         for(int i=0;i<id_list.length;i++){// list에 정지처리된 id 저장
             if(cnt_map.containsKey(id_list[i]) && cnt_map.get(id_list[i])>=k){
                 list.add(id_list[i]);
             }
         }
         
-        // System.out.println(list);
         
         for(int i=0;i<id_list.length;i++){
             if(!report_map.containsKey(id_list[i])) continue;
