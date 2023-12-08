@@ -1,51 +1,50 @@
 // 17 : 00
 class Solution{
-    int band_time,heal_second,heal_combo;
-    int first_attacktime,last_attacktime;
-    int[] timeline;
+    int band_time,heal_second,heal_bonus; // 시전시간, 1초당 회복량 , 추가 회복량
+    int first_attack,last_attack; // 첫번째와 마지막 공격시간
     int health; // 총 체력 
+    int[] timeline;
     public int solution(int[] bandage, int health, int[][] attacks){
         int answer = 0;
         
         // health는 총 체력
         this.health = health;
         
-        band_time = bandage[0]; // 붕대 감는 시간
+        band_time = bandage[0]; // 시전 시간
         heal_second = bandage[1]; // 1초당 회복량
-        heal_combo = bandage[2]; // 콤보 회복량
+        heal_bonus = bandage[2]; // 추가 회복량
         
-        first_attacktime = attacks[0][0];
-        last_attacktime = attacks[attacks.length-1][0]; // 마지막 공격 타이밍
+        first_attack = attacks[0][0]; // 첫번째 공격 타이밍
+        last_attack = attacks[attacks.length-1][0]; // 마지막 공격 타이밍
         
-        timeline = new int[last_attacktime+1]; // 게임 시간별 피 차감
+        timeline = new int[last_attack+1];
         
-        for(int i=0;i<attacks.length;i++){
-            timeline[attacks[i][0]] = attacks[i][1] * (-1);
+        for(int[] atk : attacks){
+            timeline[atk[0]] = atk[1];
         }
+        
         
         
         
         return game_result();
     }
     public int game_result(){
-        int combo_now = 0; // 현재 콤보로 쌓인 밴드 시간
+        int cnt_band = 0; // 현재 누적으로 쌓인 밴드 시간
         int health_now = health; // 현재 체력
-        for(int i=first_attacktime;i<timeline.length;i++){
+        for(int i=first_attack;i<=last_attack;i++){
             if(timeline[i] == 0 && health_now<health){
-                combo_now++;
-                if(combo_now == band_time) {
-                    health_now +=heal_combo;
-                    combo_now =0;
+                cnt_band++;
+                if(cnt_band == band_time) {
+                    health_now +=heal_bonus;
+                    cnt_band =0;
                     }
                 health_now = health_now+heal_second >= health? 
                     health : health_now+heal_second ;
             }else{
-                combo_now = 0;
-                health_now += timeline[i];
+                cnt_band = 0;
+                health_now -= timeline[i];
                 if(health_now<=0) return -1;
             }
-            // System.out.println("halt "+ health_now);
-            // System.out.println("com "+combo_now);
         }
         return health_now;
     }
