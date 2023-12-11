@@ -10,8 +10,10 @@ class Solution {
     public List<Integer> list = new ArrayList<>();
     public int solution(int[] people, int limit) {
         int answer = 0;
-        Arrays.sort(people);
+        Arrays.sort(people); // 사람들의 몸무게를 오름차순으로 정렬한다.
         
+        // people 배열에서 limit보다 작은수를 list에 담는다.
+        // limit과 같으면 answer를 1씩 증가한다.
         for(int i=0;i<people.length;i++){
             if(people[i]==limit) {
                 answer +=people.length - i;
@@ -19,11 +21,11 @@ class Solution {
             }
             list.add(people[i]);
         }
-        // System.out.println(list);//print
-        // System.out.println(answer); // print
-        
+        //list에 원소가 없을때까지
+        // 가장 작은 수와 가장 큰 수의 합이 limit 이하인지 확인하고
+        // 맞다면 answer 1를 늘리고 두 수를 list에서 삭제한다.
+        // 만약 limit을 넘어가면 answer를 1 늘리고 가장 큰수를 삭제한다.
          while(list.size()>0){
-              // System.out.println(list);//print
             if(list.size()==1) {
                 answer++;
                 break;
