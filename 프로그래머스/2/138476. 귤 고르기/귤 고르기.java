@@ -1,4 +1,4 @@
-//231216 18:50
+//231216 18:50 ~ 19:30
 
 import java.util.Map;
 import java.util.Map.Entry;
@@ -20,10 +20,7 @@ class Solution {
             cnt[idx] = entry.getValue();
             idx++;
         }
-        // for(int i=0;i<map.size();i++){
-        //     System.out.print("크기 "+size[i]);
-        //     System.out.println(" 개수 "+cnt[i]);
-        // }
+
         int tmp = 0;
         while(minus>0){
             int min = Integer.MAX_VALUE;
@@ -44,7 +41,6 @@ class Solution {
         }
         
         for(int x : cnt){
-            // System.out.print(x+" ");
             if(x!=-1) answer++;
         }
         return answer;
