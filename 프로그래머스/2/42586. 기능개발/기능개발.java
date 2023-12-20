@@ -1,18 +1,59 @@
 import java.util.ArrayList;
-import java.util.Arrays;
-class Solution {
-    public int[] solution(int[] progresses, int[] speeds) {
+import java.util.List;
+
+class Solution{
+    public List<Integer> list = new ArrayList<>();
+    public int[] solution(int[] progresses,int[] speeds){
+        int[] answer = {};
         int[] dayOfend = new int[100];
-        int day = -1;
-        for(int i=0; i<progresses.length; i++) {
-            while(progresses[i] + (day*speeds[i]) < 100) {
+        int day = 0;
+        for(int i=0;i<progresses.length;i++){
+            while(progresses[i]+speeds[i]*day < 100){
                 day++;
             }
             dayOfend[day]++;
         }
-        return Arrays.stream(dayOfend).filter(i -> i!=0).toArray();
+        for(int x : dayOfend){
+            if(x!=0) list.add(x);
+        }
+        
+        answer = new int[list.size()];
+        
+        for(int i=0;i<list.size();i++){
+            answer[i] = list.get(i);
+        }
+        
+        return answer;
     }
 }
+
+
+
+
+
+
+
+
+
+
+// import java.util.ArrayList;
+// import java.util.Arrays;
+// class Solution {
+//     public int[] solution(int[] progresses, int[] speeds) {
+//         int[] dayOfend = new int[100];
+//         int day = -1;
+//         for(int i=0; i<progresses.length; i++) {
+//             while(progresses[i] + (day*speeds[i]) < 100) {
+//                 day++;
+//             }
+//             dayOfend[day]++;
+//         }
+//         for(int i=0;i<dayOfend.length;i++){
+//             System.out.print(dayOfend[i]+" ");
+//         }
+//         return Arrays.stream(dayOfend).filter(i -> i!=0).toArray();
+//     }
+// }
 // import java.util.List;
 // import java.util.ArrayList;
 
