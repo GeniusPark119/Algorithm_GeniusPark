@@ -12,6 +12,7 @@ class Solution {
         return answer;
     }
     private void dfs(int depth,int fatigue){
+        if(max_dep == dungeons.length) return;
         for(int i=0;i<dungeons.length;i++){
             if(visited[i] || fatigue<dungeons[i][0]){
                 continue;
@@ -20,7 +21,7 @@ class Solution {
             dfs(depth+1,fatigue-dungeons[i][1]);
             visited[i] = false;
         }
-        max_dep = Math.max(max_dep,depth);
+        max_dep = Math.max(max_dep,depth); 
         
     }
 }
