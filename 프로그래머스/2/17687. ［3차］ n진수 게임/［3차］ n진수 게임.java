@@ -23,31 +23,32 @@ class Solution {
         for(int i=0;i<t;i++){
             answer += str.charAt(m*i+p-1);
         }
-        return answer;
+        return answer.toUpperCase();
     }
     public String change(int num,int n){
-        if(num==0) return "0"; // 숫자가 0일 때
-        else if(n==10) return ""+ num;// 10진수일 때
+        // if(num==0) return "0"; // 숫자가 0일 때
+        // else if(n==10) return ""+ num;// 10진수일 때
         
-        sb.setLength(0); // 여기서부터는 sb를 사용하니 sb 초기화
+        // sb.setLength(0); // 여기서부터는 sb를 사용하니 sb 초기화
         
-        if(n>10){ // 11진수~16진수
-            while(num!=0){
-                if(num%n>9){
-                    sb.append((char)(num%n+55));
-                }else{
-                    sb.append(num%n);
-                }
-                num/=n;
-            }
-            return sb.reverse().toString(); 
+        return Integer.toString(num,n);
+//         if(n>10){ // 11진수~16진수
+//             while(num!=0){
+//                 if(num%n>9){
+//                     sb.append((char)(num%n+55));
+//                 }else{
+//                     sb.append(num%n);
+//                 }
+//                 num/=n;
+//             }
+//             return sb.reverse().toString(); 
             
-        } else {// 2진수 ~ 9진수
-            while(num!=0){
-                sb.append(num%n);
-                num/=n;
-            }
-            return sb.reverse().toString();
-        }
+//         } else {// 2진수 ~ 9진수
+//             while(num!=0){
+//                 sb.append(num%n);
+//                 num/=n;
+//             }
+//             return sb.reverse().toString();
+//         }
     }
 }
