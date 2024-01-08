@@ -10,11 +10,8 @@ import java.util.Iterator;
 class Solution{
     public int solution(String skill,String[] skill_trees){
         int answer = 0;
-        ArrayList<String> list = new ArrayList<>(Arrays.asList(skill_trees));
-        Iterator<String> iterator = list.iterator();
-        
-        while(iterator.hasNext()){
-            if(skill.indexOf(iterator.next().replaceAll("[^"+skill+"]","")) == 0)
+        for(String str : skill_trees){
+            if(skill.indexOf(str.replaceAll("[^"+skill+"]","")) == 0)
                 answer++;
         }
         
