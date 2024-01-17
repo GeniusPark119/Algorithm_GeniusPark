@@ -1,22 +1,20 @@
-// 첫번째는 무조건 1번 점프를 한다. 건전지 사용량 1
-// 최대한 순간이동으로 이동한다. 1 -> 2 -> 4 -> 8 ....
-// 최대한 이동한 시점부터 N까지 점프한 횟수만큼 건전지 사용량 1에서 증가
+// 완전탐색을 하는것 같기도하고 규칙을 찾는것 같기도하다. 더 확률이 높은건 규칙찾기인데
 
-
-
-import java.util.*;
-
-public class Solution {//15:20
+public class Solution {
     public int solution(int n) {
         int ans = 0;
-        while(n!=0){
-            if(n%2==0){
-                n/=2;
-            }else{
-                ans++;
-                n--;
+        int num = n;
+        
+        while(num!=0){
+            if(num%2!=0){
+                ans += 1;
+                num-=1;
+            }
+            while(num!=0 && num%2==0){
+                num /=2;
             }
         }
+
 
         return ans;
     }
