@@ -1,98 +1,83 @@
+// 시작 -> 레버로 가는 bfs + 레버 -> 출구로 가는 bfs
 import java.util.Queue;
 import java.util.LinkedList;
 
 class Solution {
-    static class Pointer{ // 지점의 좌표와 지점별 도달 시간
-        int i;
-        int j;
-        int time;
-        
-        Pointer(int i,int j,int time) {
-            this.i = i;
-            this.j = j;
-            this.time = time;
-        }
-    }
     String[] maps;
-    Pointer lavor,start,end; // 레버,시작,끝 지점
-    Queue<Pointer> queue; // bfs를 위한 큐
-    boolean[][] visited; // 지나친 곳인가 true로 표기
-    int[] di = {-1,1,0,0}; // 상 하 좌 우
-    int[] dj = {0,0,-1,1}; // 상 하 좌 우
-    int len_i,len_j; // 미로의 세로길이,가로길이
-    
+    int[] dx = {-1,1,0,0};//상하좌우
+    int[] dy = {0,0,-1,1};
+    Pos start,labor,end;
     public int solution(String[] maps) {
         int answer = 0;
         this.maps = maps;
-        len_i = maps[0].length(); // 미로의 세로길이
-        len_j = maps.length; // 미로의 가로길이
-        visited = new boolean[maps.length][maps[0].length()]; // 지나친 곳인가 true로 표기       
-        queue = new LinkedList<>(); // bfs
         
         for(int i=0;i<maps.length;i++){
             for(int j=0;j<maps[0].length();j++){
-                if(maps[i].charAt(j)=='S'){
-                    start = new Pointer(i,j,0);
-                }else if(maps[i].charAt(j)=='E'){
-                    end = new Pointer(i,j,0);
-                }else if(maps[i].charAt(j)=='L'){
-                    lavor = new Pointer(i,j,0);
-                }
+                if(maps[i].charAt(j)=='S')
+                    start = new Pos(i,j,0);
+                else if(maps[i].charAt(j)=='L')
+                    labor = new Pos(i,j,0);
+                else if(maps[i].charAt(j)=='E')
+                    end = new Pos(i,j,0);
             }
-        } // start end lavor 모두 pointer 클래스로 찾아놓는다.
-
-        queue.offer(start);// 큐에 시작 포인터를 저장한다.
-        visited[start.i][start.j] = true;
-        
-        while(!queue.isEmpty()){ // 큐가 비워질때까지 반복한다.
-            Pointer p = queue.poll();
-            
-            if(p.i==lavor.i && p.j == lavor.j) {
-                lavor.time = p.time;
-                return findEnd();
-            }
-            for(int i=0;i<4;i++){
-                int ni = p.i+di[i];
-                int nj = p.j+dj[i];
-                if(isin(ni,nj) && !visited[ni][nj]){
-                    if(maps[ni].charAt(nj)!='X') {
-                        queue.offer(new Pointer(ni,nj,p.time+1));
-                        visited[ni][nj] = true;
-                    }
-                }
-            }
-            
         }
-        return -1;
-    }
-    
-    public boolean isin(int i,int j){
-        return 0<=i && i<len_j && 0<=j && j<len_i;
-    }
-    
-    public int findEnd(){
-        queue = new LinkedList<>();
-        visited = new boolean[len_j][len_i];
         
-        queue.offer(lavor);
-        visited[lavor.i][lavor.j] = true;
+        int toL = bfs(start.x,start.y,labor.x,labor.y);
+        // System.out.println(start.x+" "+start.y);
+        // System.out.println(labor.x+" "+labor.y);
+        if(toL==-1) 
+            return -1;
+        int toE = bfs(labor.x,labor.y,end.x,end.y);
+        if(toE == -1) 
+            return -1;
         
-        while(!queue.isEmpty()){
-            Pointer p = queue.poll();
-            if(p.i==end.i && p.j == end.j) return p.time;
-            for(int i=0;i<4;i++){
-                int ni = p.i + di[i];
-                int nj = p.j + dj[i];
+        answer = toL+toE;
+        
+        // System.out.println(toL+" "+toE);
+        
+        return answer;
+    }
+    public int bfs(int x1,int y1,int x2,int y2){
+        Queue<Pos> queue = new LinkedList<>();
+        boolean[][] visited =new boolean[maps.length][maps[0].length()];
+        // bfs를 두번 진행해야하므로 visited는 bfs 함수 내에서 선언한다.
+        
+        queue.offer(new Pos(x1,y1,0)); // queue에 시작지점을 저장한다.
+        visited[x1][y1] = true; // queue에 저장한 후 꼭 visited 방문처리
+        
+        while(!queue.isEmpty()){ // queue에서 더이상 확인할 게 없을 때까지 진행
+            Pos now = queue.poll();
+            // System.out.println(now.x+" "+now.y+" "+now.level);
+            if(now.x == x2 && now.y == y2)
+                return now.level;
+            
+            for(int i=0;i<4;i++){//상하좌우로 이동할 수 있는 지 체크하고 이동한 pos를 queue에 넣기
+                int nx = now.x + dx[i];
+                int ny = now.y + dy[i];
                 
-                if(isin(ni,nj) && !visited[ni][nj]){
-                    if(maps[ni].charAt(nj)!='X'){
-                        queue.offer(new Pointer(ni,nj,p.time+1));
-                        visited[ni][nj] = true;
-                    }
+                if(0<=nx && nx < maps.length && 0<=ny && ny < maps[0].length()
+                  && !visited[nx][ny] && maps[nx].charAt(ny)!='X'){
+                    queue.offer(new Pos(nx,ny,now.level+1)); // 이동한 위치의 Pos를 queue에
+                    visited[nx][ny] = true; // queue에 저장한 후 꼭 visited 방문처리
                 }
+                
             }
         }
         
+        // 위 과정에서 결국 답이 안나온채 queue가 비워지면 답이 없다는 뜻이다.
         return -1;
+    }
+    
+    // class Pos를 만들어서 해당 좌표까지 이동한 시간을 누적한다.
+    class Pos{
+        int x;
+        int y;
+        int level;
+        
+        public Pos(int x,int y,int level){
+            this.x = x;
+            this.y = y;
+            this.level = level;
+        }
     }
 }
