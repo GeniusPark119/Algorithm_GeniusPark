@@ -1,31 +1,45 @@
-//231216 18:50 ~ 19:30
+//11:36
 
 import java.util.Map;
 import java.util.HashMap;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.Map.Entry;
+import java.util.Arrays;
 
 class Solution {
-    public Map<Integer,Integer> map = new HashMap<>();
+    Map<Integer,Integer> map;
     public int solution(int k, int[] tangerine) {
-        
         int answer = 0;
-        int minus = tangerine.length - k;
+        map  = new HashMap<>();
         
-        for(int x : tangerine){
-            map.put(x,map.getOrDefault(x,0)+1);
+        // map에 귤의 크기당 몇개씩 있는 지 구한다.
+        for(int i=0;i<tangerine.length;i++){
+            map.put(tangerine[i],map.getOrDefault(tangerine[i],0)+1);
         }
-        
-        List<Integer> list = new ArrayList(map.keySet());
-        list.sort((o1,o2)-> map.get(o2)-map.get(o1));
-        
-        for(Integer key:list){
-            k-=map.get(key);
-            answer++;
-            if(k<=0){
+        // 크기별로 묶어진 귤의 개수를 담는 배열을 만든다.
+        int[] cntArr = new int[map.size()];
+        int idx = 0;
+        for(Map.Entry<Integer,Integer> entry : map.entrySet()){
+            cntArr[idx++] = entry.getValue();
+        }
+        // 크기별 개수를 오름차순으로 정렬한다.
+        Arrays.sort(cntArr);
+        // System.out.println(Arrays.toString(cntArr));
+        // 오름차순대로 개수를 저장하면서 전체 - minus가 k가 될때까지 한다.
+        int minus = 0;
+        for(int i=0;i<cntArr.length;i++){
+            // System.out.println(i);
+            minus += cntArr[i];
+            // System.out.println("귤"+(tangerine.length-minus));
+            if(tangerine.length-minus<k){
+                answer = cntArr.length - i;
+                break;
+            }else if(tangerine.length-minus==k){
+                answer = cntArr.length - i-1;
                 break;
             }
         }
+        // System.out.println(map);
+        
         return answer;
     }
 }
