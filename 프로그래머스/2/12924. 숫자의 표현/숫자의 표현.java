@@ -1,3 +1,4 @@
+
 class Solution {
     public int solution(int n) {
         int answer = 0;
@@ -9,8 +10,7 @@ class Solution {
                 sum += plus;
                 plus++;
             }
-            if(sum==n)
-                answer++;
+            if(sum==n) answer++;
         }
         return answer;
     }
