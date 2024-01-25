@@ -1,21 +1,41 @@
-import java.util.ArrayList;
+import java.util.Queue;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.ArrayList;
 
-class Solution{
-    public List<Integer> list = new ArrayList<>();
-    public int[] solution(int[] progresses,int[] speeds){
+class Solution {
+    public Queue<Integer> queue;
+    public List<Integer> list;
+    public int[] solution(int[] progresses, int[] speeds) {
         int[] answer = {};
-        int[] dayOfend = new int[100];
-        int day = 0;
+        queue = new LinkedList<>();
+        list = new ArrayList<>();
         for(int i=0;i<progresses.length;i++){
-            while(progresses[i]+speeds[i]*day < 100){
-                day++;
+            int start = progresses[i];
+            int speed = speeds[i];
+            int cnt = 0;
+            while(start<100){
+                cnt++;
+                start+=speed;
             }
-            dayOfend[day]++;
+            queue.add(cnt);
         }
-        for(int x : dayOfend){
-            if(x!=0) list.add(x);
+        
+        int out = queue.poll(); // queue 맨 앞에 있는 수를 저장한다
+        int cnt = 1; // 배포횟수
+        
+        
+        while(!queue.isEmpty()){
+            if(queue.peek()>out){
+                list.add(cnt);
+                out = queue.poll();
+                cnt=1;
+            }else{
+                queue.poll();
+                cnt++;
+            }
         }
+        list.add(cnt);
         
         answer = new int[list.size()];
         
@@ -26,72 +46,3 @@ class Solution{
         return answer;
     }
 }
-
-
-
-
-
-
-
-
-
-
-// import java.util.ArrayList;
-// import java.util.Arrays;
-// class Solution {
-//     public int[] solution(int[] progresses, int[] speeds) {
-//         int[] dayOfend = new int[100];
-//         int day = -1;
-//         for(int i=0; i<progresses.length; i++) {
-//             while(progresses[i] + (day*speeds[i]) < 100) {
-//                 day++;
-//             }
-//             dayOfend[day]++;
-//         }
-//         for(int i=0;i<dayOfend.length;i++){
-//             System.out.print(dayOfend[i]+" ");
-//         }
-//         return Arrays.stream(dayOfend).filter(i -> i!=0).toArray();
-//     }
-// }
-// import java.util.List;
-// import java.util.ArrayList;
-
-// class Solution {
-
-//     public List<Integer> list = new ArrayList<>();
-//     public int[] checkProgresses;
-//     public int[] solution(int[] progresses, int[] speeds) {
-//         int[] answer = {};
-//         checkProgresses = new int[progresses.length];
-//         int next_idx = 0;
-//         while(next_idx<progresses.length){
-            
-//             for(int i=next_idx;i<progresses.length;i++){
-//                 progresses[i] += speeds[i];
-//             }
-            
-//             if(progresses[next_idx]>=100){
-//                 int cnt_completed = 0;
-//                 for(int i=next_idx;i<progresses.length;i++){
-//                     if(progresses[i]>=100) {
-//                         cnt_completed++;
-//                         next_idx++;
-//                     }else{
-//                         break;
-//                     }
-//                 }
-//                 list.add(cnt_completed);
-//             }
-            
-//         }
-        
-//         answer = new int[list.size()];
-//         for(int i=0;i<list.size();i++){
-//             answer[i] = list.get(i);
-//         }
-        
-        
-//         return answer;
-//     }
-// }
