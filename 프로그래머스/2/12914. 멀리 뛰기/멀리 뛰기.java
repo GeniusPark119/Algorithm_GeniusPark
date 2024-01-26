@@ -1,18 +1,25 @@
-//231216 5시 30분 (답 보기)
-class Solution {
-    public int[] arr;
-    public int dp(int n){
-
-        if(arr[n] !=0 ) return arr[n];
-        arr[n] = (dp(n-2) + dp(n-1))%1234567;
-        return arr[n];
-    }
+class Solution { // 24/1/26 11 : 40
+    public int[] pivos;
     public long solution(int n) {
-        if(n==1) return 1;
-        arr = new int[n+1];
-        arr[1] = 1;
-        arr[2] = 2;
-        int answer = dp(n);
+        long answer = 0;
+        pivos = new int[2001];
+        pivos[0] = 0;
+        pivos[1] = 1;
+        pivos[2] = 2;
+        // 1칸 -> 1
+        // 2칸 -> 2
+        // 3칸 -> 3
+        // 4칸 -> 5
+        answer = pivo(n);
         return answer;
+    }
+    public int pivo(int i){
+        if(i==0) return 0;
+        if(i==1) return 1;
+        if(i==2) return 2;
+        if(pivos[i]==0)
+            pivos[i] = (pivo(i-2)+pivo(i-1))%1234567;
+        
+        return pivos[i];
     }
 }
