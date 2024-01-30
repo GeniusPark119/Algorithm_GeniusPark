@@ -1,58 +1,56 @@
-class Solution {
-    public int[] solution(int[] sequence, int k) {
-        int[] answer = {};
-        int N = sequence.length;
-        int left = 0, right = N; // 답이될 왼쪽 오른쪽
-        int tmpL = 0, tmpR = 0; // 탐색중 왼쪽 오른쪽
-        
-        int sum = 0;
+// 수열을 잘랐을 때 
+// 비내림차순이 오름차순이라는 것인지, 순서가 섞여있다는 것인지 확인해봐야한다.
 
-        while(true){
-            if(tmpL >= N) break;
-            while(tmpR<N && sum<k){
-                sum += sequence[tmpR++];
+// stack으로 풀어보자 
+import java.util.Queue;
+import java.util.LinkedList;
+
+class Solution { 
+    static Queue<Integer> queue;
+    public int[] solution(int[] sequence, int k) {
+        int[] answer = new int[2];
+        queue = new LinkedList<>();
+        int sum = 0;
+        int start = 0; // 시작하는 인덱스
+        int len = Integer.MAX_VALUE; // 최소 길이, 이거보다 작아야 답이되는 구조
+        for(int i=0;i<sequence.length;i++){
+            
+            queue.offer(sequence[i]);
+            sum += sequence[i];
+            
+            
+            while(sum > k){
+                sum -= queue.poll();
+                start++;
             }
-            if(sum==k){
-                if(tmpR - tmpL-1 < right - left){
-                    right = tmpR-1;
-                    left = tmpL;
-                }
+            
+            if(sum == k && len > i - start){
+                answer[0] = start;
+                answer[1] = i;
+                len = i - start;
             }
-            sum -= sequence[tmpL];
-            tmpL++;
+            
+            
         }
         
-        answer = new int[2];
-        answer[0] = left;
-        answer[1] = right;
+        // for(Range r : list){
+        //     System.out.println("start : "+r.start +", end : " + r.end);
+        // }
+        
+        
         return answer;
     }
+    
+    static class Range{ // class Range
+        
+        int start = 0;
+        int end = 0;
+        int len = 0;
+        
+        public Range(int start,int end){
+            this.start = start;
+            this.end = end;
+            this.len = end-start+1;
+        }
+    }
 }
-
-// class Solution {
-//     public int[] solution(int[] sequence, int k) {
-        
-//         int N = sequence.length;
-//         int left = 0, right = N;
-//         int sum = 0;
-//         for(int L = 0, R = 0; L < N; L++) {
-//             while(R < N && sum < k) {
-//                 sum += sequence[R++];
-//             }
-            
-//             if(sum == k) {
-//                 int range = R - L - 1;
-//                 if((right - left) > range) {
-//                     left = L;
-//                     right = R - 1;
-//                 }
-//             }
-            
-//             sum -= sequence[L];
-//         }
-        
-//         int[] answer = {left, right};
-        
-//         return answer;
-//     }
-// }
