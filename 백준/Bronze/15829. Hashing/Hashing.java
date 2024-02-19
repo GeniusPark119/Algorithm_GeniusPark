@@ -11,17 +11,19 @@ public class Main {
         int n = Integer.parseInt(br.readLine());
         String str = br.readLine();
 
-        int ans = 0;
+        long ans = 0;
+        long pow = 1;
 
         for (int i = 0; i < n; i++) {
 
-            int c = str.charAt(i) - 96;
+            ans += (str.charAt(i) - 96)*pow;
 
-            ans += c * (int)Math.pow(31,i) %1234567891;
+            pow = (pow*31)%1234567891;
+
 
         }
 
-        System.out.println(ans);
+        System.out.println(ans%1234567891);
 
 
     }
