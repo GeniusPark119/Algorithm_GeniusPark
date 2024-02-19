@@ -1,10 +1,7 @@
 //import java.util.Scanner;
 
 import java.io.*;
-import java.util.Stack;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 
 public class Main {
 
@@ -19,13 +16,14 @@ public class Main {
         int answer = 0;
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
 
         int n = Integer.parseInt(br.readLine());
 
         for (int i = 0; i < n; i++) {
-            String[] arr = br.readLine().split(" ");
-            int x = Integer.parseInt(arr[0]);
-            int y = Integer.parseInt(arr[1]);
+            st = new StringTokenizer(br.readLine());
+            int x = Integer.parseInt(st.nextToken());
+            int y = Integer.parseInt(st.nextToken());
 
             list.add(new Point(x,y));
         }
