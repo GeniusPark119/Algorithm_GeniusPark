@@ -2,15 +2,12 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-
-    static Set<Integer> set;
     static List<Integer> list;
 
     static Map<Integer,Integer> map;
 
     public static void main(String[] args) throws IOException {
 
-        set = new HashSet<>();
         map = new HashMap<>();
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -18,26 +15,32 @@ public class Main {
         StringTokenizer st;
 
         int n = Integer.parseInt(br.readLine());
-        int[] arr = new int[n];
+        int[] arr = new int[n]; // 원본
+        int[] arrSorted = new int[n]; // 정렬된 원본
+
         st = new StringTokenizer(br.readLine());
         for (int i = 0; i < n; i++) {
             int num = Integer.parseInt(st.nextToken());
-            set.add(num);
             arr[i] = num;
+            arrSorted[i] = num;
         }
 
-        list = new ArrayList<>(set);
+        Arrays.sort(arrSorted);
 
-        Collections.sort(list);
-        for(int i=0;i<list.size();i++){
-            map.put(list.get(i),i);
+        int cnt = 0;
+
+        for(int i=0;i<n;i++){
+            if(!map.containsKey(arrSorted[i])){
+                map.put(arrSorted[i],cnt);
+                cnt++;
+            }
         }
 
         for(int x : arr){
             sb.append(map.get(x));
             sb.append(" ");
         }
-        System.out.println(sb.toString());
+        System.out.println(sb);
     }
 
 }
