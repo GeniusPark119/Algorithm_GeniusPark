@@ -34,11 +34,6 @@ public class Main {
         Node(int mid){
             this.mid = mid;
         }
-        Node(int mid,Node left,Node right){
-            this.mid = mid;
-            this.left = left;
-            this.right = right;
-        }
 
         void insert(int n){
             if(n<this.mid){
