@@ -29,13 +29,10 @@ public class Main {
 
         PriorityQueue<Integer> pq = new PriorityQueue<>(); // 끝 지점을 담는 pq, 끝 지점이 작은 순서대로 담아야 다음 강의를 비교할 때 완탐을 안해도 된다.
 
-        for (int[] arr : list) { // list에 있는 강의들을 돌면서 
-            while (!pq.isEmpty()) {
-                if (pq.peek() <= arr[0]) // 다음강의의 시작지점의 pq에 담긴 끝지점보다 크거나 같다면 삭제해준다.
-                    pq.poll();
-                else
-                    break;
-            }
+        for (int[] arr : list) { // list에 있는 강의들을 돌면서
+            while (!pq.isEmpty() && pq.peek() <= arr[0]) // 다음강의의 시작지점의 pq에 담긴 끝지점보다 크거나 같다면 삭제해준다.
+                pq.poll();
+
             pq.offer(arr[1]); // 그 후 다음 강의를 추가한다.
             answer = Math.max(answer, pq.size()); // 동시에 강의가 제일 많을 때 최대 필요한 강의실 수가 된다.
         }
