@@ -3,7 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-public class Main { // 11 : 30
+public class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -14,10 +14,10 @@ public class Main { // 11 : 30
 
         st = new StringTokenizer(br.readLine());
 
-        int[] points = new int[N]; // 분기점을 0 안보임, 1 보임 저장
+        boolean[] points = new boolean[N]; // 분기점을 0 false 안보임, 1 true 보임 저장
 
         for (int i = 0; i < N - 1; i++) { // points를 입력 받는다.
-            points[i] = Integer.parseInt(st.nextToken());
+            points[i] = st.nextToken().equals("1"); // true에 true 넣기
         }
 
 //        int[][] ptop = new int[N][N]; 인접 행렬을 쓰면 안된다!!
@@ -40,7 +40,7 @@ public class Main { // 11 : 30
             int b = Integer.parseInt(st.nextToken());
             int t = Integer.parseInt(st.nextToken());
 
-            if (points[a] == 1 || points[b] == 1)
+            if (points[a] || points[b])
                 continue; // 만약 둘중 하나의 분기점이 이미 보여지는 상태이면 건너뛴다.
 
             // 인접행렬에 a분기점에서 이어져있는 b분기점과 시간 , 그 반대도 저장
@@ -56,7 +56,7 @@ public class Main { // 11 : 30
         //같은 이유로 visited를 사용하면 안되고 필요하지 않음 -> min 배열을 사용해야함
         long[] min = new long[N]; // 해당 분기점까지 가는 최단 거리
 
-        long max = 10_000_000_000L + 1;
+        long max = 10_000_000_000L + 1; // 100000 * 100000 하면 틀린다!
 
         Arrays.fill(min, max); // 초기값을 max로 잡아준다.
 
