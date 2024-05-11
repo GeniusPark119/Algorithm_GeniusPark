@@ -56,7 +56,7 @@ public class Main {
             int currS = curr[1]; // 현재 역
             int currC = curr[2]; // 현재 역까지의 환승 횟수
 
-            if (min.get(currS) < currC) continue;
+//            if (min.get(currS) < currC) continue; // 시간을 아낀다
 
             // 모든 호선에 대해 이번 역을 포함하는지 검사
             for (int line = 1; line <= N; ++line) {
